@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import path from 'path'
 import TitleBar from './components/TitleBar'
 import FileList from './components/FileList'
 import ConversionPanel from './components/ConversionPanel'
@@ -45,11 +44,18 @@ function App() {
   }, [currentFileId])
 
   const generateOutputPath = (inputPath: string): string => {
-    const dir = path.dirname(inputPath)
-    const ext = path.extname(inputPath)
-    const basename = path.basename(inputPath, ext)
-    const cleanName = basename.replace(/[_\-\s]*DTS[_\-\s]*/gi, '')
-    return path.join(dir, `${cleanName}_AC3${ext}`)
+    // 手动解析路径（渲染进程无 Node.js path 模块）
+    const lastSep = Math.max(inputPath.lastIndexOf('\\'), inputPath.lastIndexOf('/'))
+    const dir = lastSep >= 0 ? inputPath.substring(0, lastSep) : ''
+    const filename = lastSep >= 0 ? inputPath.substring(lastSep + 1) : inputPath
+
+    const dotIndex = filename.lastIndexOf('.')
+    const hasExt = dotIndex > 0
+    const ext = hasExt ? filename.substring(dotIndex) : ''
+    const base = hasExt ? filename.substring(0, dotIndex) : filename
+
+    const cleanName = base.replace(/[_\-\s]*DTS[_\-\s]*/gi, '')
+    return `${dir}\\${cleanName}_AC3${ext}`
   }
 
   const handleAddFiles = async () => {

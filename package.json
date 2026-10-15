@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "DTS音轨转AC3转换工具",
   "main": "dist-electron/main.js",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
@@ -40,8 +39,26 @@
       "dist-electron/**/*"
     ],
     "win": {
-      "target": ["portable"],
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
       "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-Portable.exe"
     },
     "extraResources": [
       {

@@ -6,6 +6,9 @@ import fs from 'fs'
 let mainWindow: BrowserWindow | null = null
 
 function createWindow() {
+  // 使用 app.getAppPath() 替代 __dirname，兼容 ESM 和 CJS 构建格式
+  const appPath = app.getAppPath()
+
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 700,
@@ -14,7 +17,7 @@ function createWindow() {
     frame: false,
     backgroundColor: '#0A0D12',
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(appPath, 'dist-electron', 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true
     }
@@ -24,7 +27,7 @@ function createWindow() {
     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL)
     mainWindow.webContents.openDevTools()
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'))
+    mainWindow.loadFile(path.join(appPath, 'dist', 'index.html'))
   }
 }
 
@@ -96,7 +99,7 @@ ipcMain.handle('convert-audio', async (_, inputPath: string, outputPath: string,
     // FFmpeg 路径
     const ffmpegPath = app.isPackaged
       ? path.join(process.resourcesPath, 'ffmpeg', 'ffmpeg.exe')
-      : path.join(process.cwd(), 'ffmpeg', 'ffmpeg.exe')
+      : path.join(app.getAppPath(), 'ffmpeg', 'ffmpeg.exe')
 
     // 检查 FFmpeg 是否存在
     if (!fs.existsSync(ffmpegPath)) {
