@@ -1,0 +1,94 @@
+.file-selector {
+  display: grid;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: var(--surface-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.file-group {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.file-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.file-input-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--spacing-sm);
+}
+
+.file-input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--surface-3);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.file-input:focus {
+  border-color: var(--accent);
+  background: var(--surface-4);
+}
+
+.file-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.file-input::placeholder {
+  color: var(--text-dim);
+}
+
+.file-button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--surface-3);
+  border: 2px solid var(--surface-4);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.file-button:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.file-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.file-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.file-button svg {
+  transition: transform 0.2s ease;
+}
+
+.file-button:hover:not(:disabled) svg {
+  transform: scale(1.1);
+}
